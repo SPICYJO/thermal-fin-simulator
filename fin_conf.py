@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 import settings
 import plot
+import solve
 
 x = np.linspace(0.0, settings.CANVAS_SIZE_X, settings.CXN)
 y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
@@ -66,6 +67,10 @@ class IO_Manager:
 		if (event.key == 'b'):
 			print('Change into Base mode')
 			self.mask = 2
+		if (event.key == 's'):
+			print('Solve & Show')
+			solve.solve_transient()
+			plot.showAnimation()
 
 	def onDragCompletion(self):
 		print("START: (%d, %d), END: (%d, %d)" % (self.START_NODE[0], self.START_NODE[1], self.END_NODE[0], self.END_NODE[1]))

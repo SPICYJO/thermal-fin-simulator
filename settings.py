@@ -1,14 +1,14 @@
 import math
 
 ## Geometry
-NODE_SIZE = 0.1
-THICKNESS = 0.1
+NODE_SIZE = 0.05  # (NODE = NODE_SIZE * NODE_SIZE * THICKNESS)
+THICKNESS = 1
 
-CANVAS_SIZE_X = 100
-CANVAS_SIZE_Y = 100
+CANVAS_SIZE_X = 0.5
+CANVAS_SIZE_Y = 1
 
-TIME = 100
-TIME_SLICE = 0.1
+TIME = 1200
+TIME_SLICE = 0.03
 
 # Resize
 CXN = math.ceil(CANVAS_SIZE_X / NODE_SIZE)
@@ -21,3 +21,9 @@ TIME = TN * TIME_SLICE
 ## Heat transfer coefficient
 h = 10
 k = 5
+rho = 20
+cp = 10
+
+## Temperatures
+T_inf = 25
+T_base = 60
