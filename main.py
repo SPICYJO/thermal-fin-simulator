@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 import settings
@@ -16,7 +15,7 @@ ax1.axis([0.0, settings.CANVAS_SIZE_X, 0.0, settings.CANVAS_SIZE_Y])
 iom = fin_conf.IO_Manager()
 iom.connect(fig)
 
-
+plt.pcolormesh(x,y,fin_conf.conf_matrix)
 
 
 
