@@ -36,10 +36,12 @@ def showAnimation():
 	plt.gca().set_aspect('equal')
 	fig.colorbar(pos, label='temperature')
 	anim = FuncAnimation(
-		fig, animate, interval=100, frames=settings.TN-1)
+		fig, animate, interval=20, frames=settings.TN-1, repeat_delay = 1000)
 	plt.show()
 
 def animate(i):
 	pos = plt.pcolormesh(x,y,solve.solution_matrix[i], vmin=settings.T_inf, vmax=settings.T_base)
-
+	current = settings.TIME_SLICE*i
+	if i != settings.TN:
+		print("%s seconds elapsed" % current )
 
