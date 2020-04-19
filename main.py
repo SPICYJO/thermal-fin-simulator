@@ -1,22 +1,18 @@
 import numpy as np
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 import settings
 import fin_conf
+import plot
 
 x = np.linspace(0.0, settings.CANVAS_SIZE_X, settings.CXN)
 y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
 
 
-fig, ax1 = plt.subplots()
-ax1.axis([0.0, settings.CANVAS_SIZE_X, 0.0, settings.CANVAS_SIZE_Y])
-
-
 iom = fin_conf.IO_Manager()
-iom.connect(fig)
+iom.connect(plot.fig)
 
-plt.pcolormesh(x,y,fin_conf.conf_matrix)
-
-
+plot.draw()
 
 plt.show()

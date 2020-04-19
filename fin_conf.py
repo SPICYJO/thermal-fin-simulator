@@ -4,22 +4,24 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 import settings
+import plot
 
 x = np.linspace(0.0, settings.CANVAS_SIZE_X, settings.CXN)
 y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
 
 # 0: Not fin, 1: Fin, 2: Base(Constant Temp)
-conf_matrix = np.zeros((settings.CXN,settings.CYN,), dtype=np.int32)
+conf_matrix = np.zeros((settings.CYN,settings.CXN,), dtype=np.int32)
 
 def setRect(start, end, mask):
 	global conf_matrix
-	conf_matrix[min(start[0],end[0]):max(start[0],end[0]), min(start[1],end[1]):max(start[1],end[1])] = mask
+	conf_matrix[min(start[1],end[1]):max(start[1],end[1]), min(start[0],end[0]):max(start[0],end[0])] = mask
 
 class IO_Manager:
 	def __init__(self):
 		self.pressed = False
 		self.X_NODE = 0
 		self.Y_NODE = 0
+		self.mask = 0
 
 		self.START_NODE = (0,0)
 		self.END_NODE = (0,0)
@@ -55,12 +57,22 @@ class IO_Manager:
 
 	def onKeyPress(self, event):
 		print('%s pressed!' % event.key)
+		if (event.key == 'f'):
+			print('Change into Fin mode')
+			self.mask = 1
+		if (event.key == 'a'):
+			print('Change into Ambient mode')
+			self.mask = 0
+		if (event.key == 'b'):
+			print('Change into Base mode')
+			self.mask = 2
 
 	def onDragCompletion(self):
 		print("START: (%d, %d), END: (%d, %d)" % (self.START_NODE[0], self.START_NODE[1], self.END_NODE[0], self.END_NODE[1]))
-		setRect(self.START_NODE, self.END_NODE, 1)
+		setRect(self.START_NODE, self.END_NODE, self.mask)
+		plot.draw()
 
-		plt.clf()
+		#plt.clf()
 		#plt.pcolormesh(x,y,conf_matrix)
 
 	def connect(self, fig):
@@ -79,5 +91,6 @@ class IO_Manager:
 		self.fig.canvas.mpl_disconnect(self.cid2)
 		self.fig.canvas.mpl_disconnect(self.cid3)
 		self.fig.canvas.mpl_disconnect(self.cid4)
+
 
 
