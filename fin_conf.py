@@ -87,10 +87,14 @@ class IO_Manager:
 			if(self.thickness < 1):
 				self.thickness = 1
 			print('Thickness : %d' % self.thickness)	
-		if (event.key == 's'):
-			print('Solve & Show')
+		if (event.key == 't'):
+			print('Solve & Show (Transient)')
 			solve.solve_transient()
 			plot.showAnimation()
+		if (event.key == 's'):
+			print('Solve & Show (Steady-state)')
+			solve.solve_steady()
+			plot.showSteady()
 
 	def onDragCompletion(self):
 		print("START: (%d, %d), END: (%d, %d)" % (self.START_NODE[0], self.START_NODE[1], self.END_NODE[0], self.END_NODE[1]))

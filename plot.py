@@ -27,6 +27,15 @@ def draw():
 	fig.colorbar(postemp, label='Type')
 	plt.draw()
 
+def showSteady():
+	print("showSteady!")
+	global pos
+	plt.clf()
+	pos = plt.pcolormesh(x,y,solve.solution_matrix[0], vmin=settings.T_inf, vmax=settings.T_base)
+	plt.gca().set_aspect('equal')
+	fig.colorbar(pos, label='temperature')
+	plt.show()
+
 def showAnimation():
 	print("showAnimation!")
 	global pos
