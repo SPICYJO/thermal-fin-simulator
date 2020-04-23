@@ -13,6 +13,10 @@ y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
 # 0: Not fin, 1: Fin, 2: Base(Constant Temp)
 conf_matrix = np.zeros((settings.CYN,settings.CXN,), dtype=np.int32)
 
+# Fin, Base constraint (for mechlab2)
+conf_matrix[3:27, 100:150] = 1
+conf_matrix[0:3, 100:150] = 2
+
 def getFinNodeCount():
 	unique, counts = np.unique(conf_matrix, return_counts=True)
 	d = dict(zip(unique, counts))
@@ -27,6 +31,10 @@ def setRect(start, end, mask, thickness=0):
 
 	conf_matrix[min(start[1],end[1])-thickness :max(start[1],end[1])+thickness, min(start[0],end[0])-thickness:max(start[0],end[0])+thickness] = mask
 	
+	# Fin, Base constraint (for mechlab2)
+	conf_matrix[3:27, 100:150] = 1
+	conf_matrix[0:2, 100:150] = 2
+
 	num_fin_node = getFinNodeCount()
 	print("Current number of Fin node : %d / %d" % (num_fin_node, settings.MAX_FIN_NODE))
 	if (num_fin_node > settings.MAX_FIN_NODE):
