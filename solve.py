@@ -52,29 +52,34 @@ def solve_steady():
 	global solution_matrix
 	# new_matrix = solution_matrix[0]
 	# old_matrix = solution_matrix[1]
-
+	iteration = 0
 	max_error = 2
 
-	while (max_error > settings.MAX_ERROR_TOLERANCE):
-		# initial
-		for m in range(settings.CXN):
-			for n in range(settings.CYN):
-				solution_matrix[0][n][m] = (settings.T_base if (nodeType(n,m) == 2) else settings.T_inf)
-				solution_matrix[1][n][m] = (settings.T_base if (nodeType(n,m) == 2) else settings.T_inf)
+	# initial
+	for m in range(settings.CXN):
+		for n in range(settings.CYN):
+			solution_matrix[0][n][m] = (settings.T_base if (nodeType(n,m) == 2) else settings.T_inf)
 
+	solution_matrix[1] = solution_matrix[0]
+
+	while (max_error > settings.MAX_ERROR_TOLERANCE):
+		
 		for m in range(settings.CXN):
 			for n in range(settings.CYN):
 				if(nodeType(n,m) == 0):
-					solution_matrix[0][n][m] = settings.T_inf
+					#solution_matrix[0][n][m] = settings.T_inf
+					continue
 				elif(nodeType(n,m) == 2):
-					solution_matrix[0][n][m] = settings.T_base
+					#solution_matrix[0][n][m] = settings.T_base
+					continue
 				else:
 					solution_matrix[0][n][m] = this_node_should_be(n,m)
 
 		diff = solution_matrix[0] - solution_matrix[1]
 		max_error = max(diff.min(), diff.max(), key=abs)
 		
-
+		iteration += 1
+		print(iteration)
 		solution_matrix[1] = solution_matrix[0]
 
 

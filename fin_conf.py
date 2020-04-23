@@ -13,9 +13,27 @@ y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
 # 0: Not fin, 1: Fin, 2: Base(Constant Temp)
 conf_matrix = np.zeros((settings.CYN,settings.CXN,), dtype=np.int32)
 
+def getFinNodeCount():
+	unique, counts = np.unique(conf_matrix, return_counts=True)
+	d = dict(zip(unique, counts))
+	if 1 in d:
+		return d[1]
+	else:
+		return 0
+
 def setRect(start, end, mask, thickness=0):
 	global conf_matrix
+	old_one = conf_matrix.copy()
+
 	conf_matrix[min(start[1],end[1])-thickness :max(start[1],end[1])+thickness, min(start[0],end[0])-thickness:max(start[0],end[0])+thickness] = mask
+	
+	num_fin_node = getFinNodeCount()
+	print("Current number of Fin node : %d / %d" % (num_fin_node, settings.MAX_FIN_NODE))
+	if (num_fin_node > settings.MAX_FIN_NODE):
+		print("Reached MAX_FIN_NODE, Cannot draw!")
+		conf_matrix = old_one
+		return
+	
 
 
 class IO_Manager:
