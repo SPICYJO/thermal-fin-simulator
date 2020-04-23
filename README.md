@@ -4,11 +4,11 @@
 기계공학실험 보고서를 쓰다가 만들게 되었다...
 
 ## 구현 방식
-settings.py - 실험 조건 값, 해석 조건 설정
-main.py - 실행 파일
-fin_conf.py - 핀 설정 파일, I/O 담당
-solve.py - 수치해석 수행
-plot.py - 화면 표시 담당
+- settings.py : 실험 조건 값, 해석 조건 설정
+- main.py : 실행 파일
+- fin_conf.py : 핀 설정 파일, I/O 담당
+- solve.py : 수치해석 수행
+- plot.py : 화면 표시 담당
 
 ## 설치 방식
 - python 설치
@@ -38,5 +38,5 @@ plot.py - 화면 표시 담당
 ## 실행 결과
 
 ## TODO
-- solve 시, 계산 성능 개선 요망
+- solve 시, 계산 성능 개선 요망 ㅠㅠ
 - transient로 많은 시간프레임에 대해 분석 시, 메모리 부족 현상 해결 요망
