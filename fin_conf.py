@@ -113,6 +113,9 @@ class IO_Manager:
 			print('Solve & Show (Steady-state)')
 			solve.solve_steady()
 			plot.showSteady()
+		if (event.key == 'q'):
+			print('Return to fin configuration')
+			plot.draw()
 
 	def onDragCompletion(self):
 		print("START: (%d, %d), END: (%d, %d)" % (self.START_NODE[0], self.START_NODE[1], self.END_NODE[0], self.END_NODE[1]))

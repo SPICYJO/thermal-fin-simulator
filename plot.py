@@ -21,6 +21,11 @@ anim = None
 
 
 def draw():
+	global anim
+	if anim != None:
+		anim.event_source.stop()
+	anim = None
+
 	plt.clf()
 	postemp = plt.pcolormesh(x,y,fin_conf.conf_matrix, vmin=0, vmax=2)
 	plt.gca().set_aspect('equal')
@@ -34,7 +39,20 @@ def showSteady():
 	pos = plt.pcolormesh(x,y,solve.solution_matrix[0], vmin=settings.T_inf, vmax=settings.T_base)
 	plt.gca().set_aspect('equal')
 	fig.colorbar(pos, label='temperature')
+
+	T_avg = (solve.fin_average_temperature(0))
+	fin_effectiveness = ( ( fin_conf.getFinNodeCount() * settings.NODE_SIZE * settings.NODE_SIZE)  * (T_avg - settings.T_inf)) / (settings.A_base * (settings.T_base - settings.T_inf) )
+	fin_efficiency = ( (T_avg - settings.T_inf)) / ( (settings.T_base - settings.T_inf) )
+
+	print("Calculation Result")
+	print("Fin Average Temperature : %f" % T_avg)
+	print("Fin Effectiveness : %f" % fin_effectiveness)
+	print("Fin Efficiency : %f" % fin_efficiency)
+
 	plt.show()
+	
+	#print("Fin Average Temperature : %f" % )
+	#print("Fin Average Temperature : %f" % (solve.fin_average_temperature(0)))
 
 def showAnimation():
 	print("showAnimation!")
@@ -45,7 +63,7 @@ def showAnimation():
 	plt.gca().set_aspect('equal')
 	fig.colorbar(pos, label='temperature')
 	anim = FuncAnimation(
-		fig, animate, interval=20, frames=settings.TN-1, repeat_delay = 1000)
+		fig, animate, interval=settings.ANIMATION_FRAME_MILLISECOND, frames=settings.TN-1, repeat_delay = 1000)
 	plt.show()
 
 def animate(i):

@@ -82,9 +82,6 @@ def solve_steady():
 		print(iteration)
 		solution_matrix[1] = solution_matrix[0]
 
-
-
-
 # Helper function for solve_steady function(Gauss-Seidel method)
 def this_node_should_be(y,x):
 	divisor = 0
@@ -92,14 +89,32 @@ def this_node_should_be(y,x):
 
 	for (ext_y, ext_x) in [(y-1,x), (y+1,x), (y,x-1), (y,x+1)]:
 		if (nodeType(ext_y, ext_x) == 0):
-			divisor += settings.h * settings.THICKNESS * settings.NODE_SIZE
-			dividend += settings.T_inf * settings.h * settings.THICKNESS * settings.NODE_SIZE
+			# divisor += settings.h * settings.THICKNESS * settings.NODE_SIZE
+			# dividend += settings.T_inf * settings.h * settings.THICKNESS * settings.NODE_SIZE
+			divisor += settings.h  * settings.NODE_SIZE
+			dividend += settings.T_inf * settings.h *settings.NODE_SIZE
 		else :
-			divisor += settings.k * settings.THICKNESS
-			dividend +=  solution_matrix[0][ext_y][ext_x] * settings.k * settings.THICKNESS
+			# divisor += settings.k * settings.THICKNESS
+			# dividend +=  solution_matrix[0][ext_y][ext_x] * settings.k * settings.THICKNESS
+			divisor += settings.k 
+			dividend +=  solution_matrix[0][ext_y][ext_x] * settings.k 
 
 	# convection heat transfer at surface
-	divisor += 2 * settings.h * settings.NODE_SIZE * settings.NODE_SIZE
-	dividend += 2 * settings.T_inf * settings.h * settings.NODE_SIZE * settings.NODE_SIZE
+	# divisor += 2 * settings.h * settings.NODE_SIZE * settings.NODE_SIZE
+	# dividend += 2 * settings.T_inf * settings.h * settings.NODE_SIZE * settings.NODE_SIZE
+
+	divisor += 2 * settings.h * settings.NODE_SIZE 
+	dividend += 2 * settings.T_inf * settings.h * settings.NODE_SIZE
 
 	return (dividend/divisor)
+
+def fin_average_temperature(timeframe):
+	sum = 0
+	count = 0
+	for m in range(settings.CXN):
+		for n in range(settings.CYN):
+			if(fin_conf.conf_matrix[n][m] == 1):
+				sum += solution_matrix[0][n][m]
+				count += 1
+
+	return (sum/count)

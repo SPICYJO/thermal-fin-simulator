@@ -7,14 +7,20 @@ THICKNESS = 0.002
 CANVAS_SIZE_X = 0.5
 CANVAS_SIZE_Y = 0.5
 
+# CANVAS_SIZE_X = 0.1
+# CANVAS_SIZE_Y = 0.5
+
 # Constraints
 MAX_FIN_NODE = 7150
 
-TIME = 0.3
-TIME_SLICE = 0.001
+TIME = 0.2
+TIME_SLICE = 0.002
 
 # For steady
-MAX_ERROR_TOLERANCE = 0.02
+MAX_ERROR_TOLERANCE = 0.01
+
+# For transient
+ANIMATION_FRAME_MILLISECOND = 10
 
 # Resize
 CXN = math.ceil(CANVAS_SIZE_X / NODE_SIZE)
@@ -35,3 +41,6 @@ cp = 376.812
 ## Temperatures
 T_inf = 17.955
 T_base = 35.13
+
+
+A_base = 0.002 * 0.1
