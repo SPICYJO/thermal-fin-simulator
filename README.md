@@ -38,6 +38,8 @@
 - 분석을 다 한 뒤, 화면에 표시하기 때문에, s나 t 입력 후에는 잠시 기다려야함 <br /><br />
 
 ## 실행 결과
+![demo.gif](https://github.com/SPICYJO/thermal-fin-simulator/blob/mechlab2/demo/thermal_fin_simulator_demo.gif)
+위 gif는 transient 분석을 수행하는 모습이다.
 
 ## TODO
 - solve 시, 계산 성능 개선 요망 ㅠㅠ
