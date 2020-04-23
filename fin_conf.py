@@ -33,7 +33,7 @@ def setRect(start, end, mask, thickness=0):
 	
 	# Fin, Base constraint (for mechlab2)
 	conf_matrix[3:27, 100:150] = 1
-	conf_matrix[0:2, 100:150] = 2
+	conf_matrix[0:3, 100:150] = 2
 
 	num_fin_node = getFinNodeCount()
 	print("Current number of Fin node : %d / %d" % (num_fin_node, settings.MAX_FIN_NODE))
