@@ -13,9 +13,10 @@ y = np.linspace(0.0, settings.CANVAS_SIZE_Y, settings.CYN)
 # 0: Not fin, 1: Fin, 2: Base(Constant Temp)
 conf_matrix = np.zeros((settings.CYN,settings.CXN,), dtype=np.int32)
 
-def setRect(start, end, mask):
+def setRect(start, end, mask, thickness=0):
 	global conf_matrix
-	conf_matrix[min(start[1],end[1]):max(start[1],end[1]), min(start[0],end[0]):max(start[0],end[0])] = mask
+	conf_matrix[min(start[1],end[1])-thickness :max(start[1],end[1])+thickness, min(start[0],end[0])-thickness:max(start[0],end[0])+thickness] = mask
+
 
 class IO_Manager:
 	def __init__(self):
@@ -23,6 +24,9 @@ class IO_Manager:
 		self.X_NODE = 0
 		self.Y_NODE = 0
 		self.mask = 0
+
+		self.linemode = 0
+		self.thickness = 1
 
 		self.START_NODE = (0,0)
 		self.END_NODE = (0,0)
@@ -54,6 +58,8 @@ class IO_Manager:
 		Y_NODE = math.floor(settings.CYN * (event.ydata / settings.CANVAS_SIZE_Y))
 		self.X_NODE = X_NODE
 		self.Y_NODE = Y_NODE
+		if(self.linemode == 1):
+			self.onLineModeCompletion()
 		#print('dragging %d %d' % (X_NODE, Y_NODE))
 
 	def onKeyPress(self, event):
@@ -67,6 +73,20 @@ class IO_Manager:
 		if (event.key == 'b'):
 			print('Change into Base mode')
 			self.mask = 2
+		if (event.key == 'r'):
+			print('Change Draw mode into Rectangle')
+			self.linemode = 0
+		if (event.key == 'l'):
+			print('Change Draw mode into Line')
+			self.linemode = 1
+		if (event.key == '+' and self.linemode == 1):
+			self.thickness += 1
+			print('Thickness : %d' % self.thickness)
+		if (event.key == '-' and self.linemode == 1):
+			self.thickness -= 1
+			if(self.thickness < 1):
+				self.thickness = 1
+			print('Thickness : %d' % self.thickness)	
 		if (event.key == 's'):
 			print('Solve & Show')
 			solve.solve_transient()
@@ -80,10 +100,18 @@ class IO_Manager:
 		#plt.clf()
 		#plt.pcolormesh(x,y,conf_matrix)
 
+	def onLineModeCompletion(self):
+		thickness = self.thickness - 1
+		self.END_NODE = (self.X_NODE,self.Y_NODE)
+		setRect(self.START_NODE, self.END_NODE, self.mask, thickness)
+		print("Line Mode : START: (%d, %d), END: (%d, %d)" % (self.START_NODE[0], self.START_NODE[1], self.END_NODE[0], self.END_NODE[1]))
+		self.START_NODE = self.END_NODE
+
 	def connect(self, fig):
 		mpl.rcParams['keymap.fullscreen'].remove('f')
 		mpl.rcParams['keymap.save'].remove('s')
 		mpl.rcParams['keymap.quit'].remove('q')
+		mpl.rcParams['keymap.yscale'].remove('l')
 
 		self.fig = fig
 		self.cid1 = fig.canvas.mpl_connect('button_press_event', self.onClick)
